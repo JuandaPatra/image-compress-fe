@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import "./App.css";
 import FileUploader from "./components/FileUploader";
@@ -6,14 +6,12 @@ import FileUploader from "./components/FileUploader";
 function App() {
   const [files, setFiles] = useState<File[]>([]);
   const [downloadName, setDownloadName] = useState("");
+  const [resetKey, setResetKey] = useState(0);
 
-  
-  
   const handleFilesSelected = (newFiles: File[]) => {
     setFiles((prev) => [...prev, ...newFiles]);
     setDownloadName("");
   };
-  
 
   const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
   function handleCompress() {
@@ -48,8 +46,8 @@ function App() {
       const filename = response.headers["x-filename"]
         ? decodeURIComponent(response.headers["x-filename"])
         : contentType === "application/zip"
-        ? download +"compressed-files.zip"
-        : download +"downloaded-file.jpg";
+        ? download + "compressed-files.zip"
+        : download + "downloaded-file.jpg";
       setDownloadName(filename);
       const link = document.createElement("a");
       link.href = url;
@@ -62,14 +60,25 @@ function App() {
     }
   }
 
+
+  function clearfiles() {
+    setFiles([]);
+    setDownloadName("");
+    setResetKey(prev => prev + 1);
+  }
+
   return (
     <>
-      <h1>Image Compress!!!</h1>
-      <FileUploader onFilesSelected={handleFilesSelected} />
-      <button onClick={handleCompress} disabled={!files.length}>
-        Compress
-      </button>
-      
+        <h1 className=" text-2xl text-red-200">Image Compress!!!</h1>
+      <div className="flex flex-col gap-4 items-center justify-center">
+        <FileUploader onFilesSelected={handleFilesSelected} key={resetKey} />
+        <button onClick={handleCompress} disabled={!files.length} className={!files.length ? "compress-button disabled" : "compress-button"}>
+          Compress
+        </button>
+        <button style={{ "marginLeft": 10}} onClick={clearfiles} >
+          Clear
+        </button>
+      </div>
     </>
   );
 }

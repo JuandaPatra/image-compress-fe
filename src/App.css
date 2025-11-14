@@ -53,3 +53,15 @@
   height: 100px;
   width: auto;
 }
+
+
+.compress-button {
+  margin-top: 20px;
+  background-color: #646cff;
+  color: white;
+}
+
+.compress-button.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

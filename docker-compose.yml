@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app                # ← mount seluruh folder proyek ke container
+      - /app/node_modules     # ← biar node_modules di container tetap dipakai
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true  # ← penting di Windows untuk hot reload
