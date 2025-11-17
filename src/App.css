@@ -42,10 +42,11 @@
 }
 
 .upload-area {
+
   
   border-radius: 10px;
   border: 2px  dotted;
-  padding: 50px;
+  padding: 7rem 13rem;
   cursor: pointer;
 }
 
@@ -56,7 +57,7 @@
 
 
 .compress-button {
-  margin-top: 20px;
+  margin-top: 2rem;
   background-color: #646cff;
   color: white;
 }
@@ -64,4 +65,11 @@
 .compress-button.disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.btn-compress-cancel {
+  margin-top: 2rem;
+  margin-left: 1rem;
+  background-color: #ff6464;
+  color: white;
 }

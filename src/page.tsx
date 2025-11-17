@@ -3,7 +3,7 @@ import axios from "axios";
 import "./App.css";
 import FileUploader from "./components/FileUploader";
 
-function App() {
+function Homepage() {
   const [files, setFiles] = useState<File[]>([]);
   const [quality, setQuality] = useState(80);
   const [downloadName, setDownloadName] = useState("");
@@ -103,4 +103,4 @@ function App() {
   );
 }
 
-export default App;
+export default Homepage;

@@ -1,11 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-import "./App.css";
-import FileUploader from "./components/FileUploader";
-
-function App() {
-  const [files, setFiles] = useState<File[]>([]);
-  const [quality, setQuality] = useState(80);
+import FileUploader from "../../components/FileUploader";
+function ConvertPage() {
+   const [files, setFiles] = useState<File[]>([]);
+  const [imageFormat, setImageFormat] = useState('jpeg');
   const [downloadName, setDownloadName] = useState("");
   const [resetKey, setResetKey] = useState(0);
 
@@ -30,11 +28,11 @@ function App() {
       formData.append("images", file); // bukan "image"
     });
 
-    const parameters = quality ? `?quality=${quality}` : "";
+    const parameters = imageFormat ? `?to=${imageFormat}` : "";
 
     try {
       const response = await axios.post(
-        `${apiUrl}/service/compress${parameters}`,
+        `${apiUrl}/service/convert${parameters}`,
         formData,
         {
           responseType: "blob",
@@ -69,38 +67,34 @@ function App() {
     setDownloadName("");
     setResetKey((prev) => prev + 1);
   }
+  return <>
+   <h1 className=" text-4xl text-[#646cff] font-bold mb-2">Convert Image!!!</h1>
+        <label htmlFor="quality" className=" text-[#646cff]">Select Format: </label>
+  
+        <select name="quality" id="quality" className="mb-4 text-[#646cff]" value={imageFormat} onChange={(e) => setImageFormat(e.target.value)}>
+          <option value="jpeg">jpeg</option>
+          <option value="webp">webp</option>
+          <option value="png">png</option>
 
-  return (
-    <>
-      <h1 className=" text-4xl text-[#646cff] font-bold mb-2">Image Compress!!!</h1>
-      <label htmlFor="quality" className=" text-[#646cff]">Select Quality: </label>
-
-      <select name="quality" id="quality" className="mb-4 text-[#646cff]" value={quality} onChange={(e) => setQuality(parseInt(e.target.value))}>
-        <option value="40">40 %</option>
-        <option value="50">50 %</option>
-        <option value="60">60 %</option>
-        <option value="70">70 %</option>
-        <option value="80">80 %</option>
-      </select>
-      <div className="flex flex-col gap-4 items-center justify-center">
-        <FileUploader onFilesSelected={handleFilesSelected} key={resetKey} />
-        <div className="flex">
-          <button
-            onClick={handleCompress}
-            disabled={!files.length}
-            className={
-              !files.length ? "compress-button disabled" : "compress-button"
-            }
-          >
-            Compress
-          </button>
-          <button className="btn-compress-cancel" onClick={clearfiles}>
-            Clear
-          </button>
+        </select>
+        <div className="flex flex-col gap-4 items-center justify-center">
+          <FileUploader onFilesSelected={handleFilesSelected} key={resetKey} />
+          <div className="flex">
+            <button
+              onClick={handleCompress}
+              disabled={!files.length}
+              className={
+                !files.length ? "compress-button disabled" : "compress-button"
+              }
+            >
+              Convert 
+            </button>
+            <button className="btn-compress-cancel" onClick={clearfiles}>
+              Clear
+            </button>
+          </div>
         </div>
-      </div>
-    </>
-  );
+  </>
 }
 
-export default App;
+export default ConvertPage;
